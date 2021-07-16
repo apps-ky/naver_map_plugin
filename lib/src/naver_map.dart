@@ -1,4 +1,3 @@
-
 part of naver_map_plugin;
 
 /// ### 네이버지도
@@ -6,15 +5,12 @@ part of naver_map_plugin;
 class NaverMap extends StatefulWidget {
   const NaverMap({
     Key? key,
+    this.gestureRecognizers,
     this.onMapCreated,
     this.onMapTap,
     this.onMapLongTap,
-    this.onMapDoubleTap,
-    this.onMapTwoFingerTap,
-    this.onSymbolTap,
     this.onCameraChange,
     this.onCameraIdle,
-    this.pathOverlays,
     this.initialCameraPosition,
     this.mapType = MapType.Basic,
     this.liteModeEnable = false,
@@ -29,15 +25,21 @@ class NaverMap extends StatefulWidget {
     this.tiltGestureEnable = true,
     this.zoomGestureEnable = true,
     this.locationButtonEnable = false,
-    this.useSurface = false,
-    this.initLocationTrackingMode = LocationTrackingMode.NoFollow,
-    this.contentPadding,
     this.markers = const [],
+    this.pathOverlays,
     this.circles = const [],
     this.polygons = const [],
+    this.onMapDoubleTap,
+    this.initLocationTrackingMode = LocationTrackingMode.NoFollow,
+    this.onMapTwoFingerTap,
+    this.onSymbolTap,
+    this.contentPadding,
+    this.useSurface = false,
     this.minZoom = 0.0,
     this.maxZoom = 21.0,
   }) : super(key: key);
+
+  final Set<Factory<OneSequenceGestureRecognizer>>? gestureRecognizers;
 
   /// 지도가 완전히 만들어진 후에 컨트롤러를 파라미터로 가지는 콜백.
   /// 해당 콜백이 호출되기 전에는 지도가 만들어지는 중이다.
@@ -281,6 +283,7 @@ class _NaverMapState extends State<NaverMap> {
         onPlatformViewCreated: onPlatformViewCreated,
         creationParams: createParams,
         creationParamsCodec: const StandardMessageCodec(),
+        gestureRecognizers: widget.gestureRecognizers,
       );
       return view;
 
@@ -310,6 +313,7 @@ class _NaverMapState extends State<NaverMap> {
         onPlatformViewCreated: onPlatformViewCreated,
         creationParams: createParams,
         creationParamsCodec: const StandardMessageCodec(),
+        gestureRecognizers: widget.gestureRecognizers,
       );
       return view;
     }
